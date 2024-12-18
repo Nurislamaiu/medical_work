@@ -1,0 +1,64 @@
+{
+  "title1": "Қош келдіңіз",
+  "title2": "Ыңғайлы тапсырыс беру",
+  "title3": "Сапалы қызмет",
+  "description1": "Бұл үйдегі медициналық қызметтерге арналған қосымша.",
+  "description2": "Сұранысты бірнеше басу арқылы рәсімдеңіз.",
+  "description3": "Біздің команда кәсіби көзқарасты кепілдендіреді.",
+  "next": "Келесі",
+  "start": "Бастау",
+  "skip": "Өткізіп жіберу",
+
+
+
+
+  "your_detail" : "Кіру мәліметтерін енгізіңіз",
+  "login": "Кіру",
+  "no_account": "Тіркелгі жоқ па? Тіркелу",
+  "password": "Құпия сөз",
+  "email": "Пошта",
+  "register": "Tіркеу",
+  "register_description": "Қолданбаға кіру үшін тіркелгі жасаңыз",
+  "enter_data_title": "Деректерді енгізіңіз",
+  "enter_data_sub_title": "Медициналық маман сізді жақсырақ білуі үшін деректерді енгізіңіз.",
+  "name": "Аты",
+  "age": "Жасы",
+  "address": "Мекен-жайы",
+  "phone": "Телефон",
+  "please_enter_name": "Атын енгізіңіз",
+  "please_enter_age": "Жасын енгізіңіз",
+  "please_enter_address": "Мекен-жайын енгізіңіз",
+  "please_enter_phone": "Телефон енгізіңіз",
+  "men": "Еркек",
+  "women": "Айел",
+  "other": "Жандос",
+  "paul": "Жыныс: ",
+  "error_info_screen": "Пайдаланушы деректерін сақтау мүмкін болмады",
+  "error": "Кате",
+  "invalid_phone_number": "Дұрыс емес нөмір",
+
+
+
+
+  "your_health": "Сіздің денсаулығыңыз сенімді қолда!",
+  "submit_application": "Өтініш қалдыру",
+  "services": "Қызметтер",
+  "consultation": "Кеңес беру",
+  "why_choose_us": "Неліктен бізді таңдайды:",
+  "qualified_specialists": "Білікті мамандар",
+  "sterility_and_safety": "Стерильділік және қауіпсіздік",
+  "availability": "Қол жетімділік 24/7",
+  "fast_delivery": "Дәрі-дәрмектерді жылдам жеткізу",
+
+
+
+  "our_services_title": "Біздің қызметтер!",
+  "our_services_subTitle": "Қызметті таңдаңыз немесе маманмен кеңесіңіз.",
+  "intramuscular_injections": "Бұлшықетке екпелер",
+  "intravenous_injections": "Көктамырға екпелер",
+  "ivs": "Тамшылатқыштар",
+  "bandages": "Бинттеу",
+  "installation_of_a_urinary_catheter_and_stom": "Зәр катетері мен стоманы орнату",
+  "enemas": "Клизмалар",
+  "removal_of_alcohol_intoxication": "Алкогольден улануды жою"
+}

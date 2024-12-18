@@ -1,0 +1,65 @@
+{
+  "title1": "Welcome",
+  "title2": "Convenient Ordering",
+  "title3": "Quality Service",
+  "description1": "This is an app for home medical services.",
+  "description2": "Submit requests in just a few clicks.",
+  "description3": "Our team guarantees a professional approach.",
+  "next": "Next",
+  "start": "Start",
+  "skip": "Skip",
+
+
+
+
+  "your_detail": "Enter your login details",
+  "login": "Login",
+  "no_account": "No account? Register",
+  "password": "Password",
+  "email": "Email",
+  "register": "Register",
+  "register_description": "Create an account to access the app",
+  "enter_data_title": "Enter the data",
+  "enter_data_sub_title": "Enter the data so that the medical specialist gets to know you better.",
+  "name": "Name",
+  "age": "Age",
+  "address": "Address",
+  "phone": "Phone",
+  "please_enter_name": "Please enter name",
+  "please_enter_age": "Please enter age",
+  "please_enter_address": "Please enter address",
+  "please_enter_phone": "Please enter phone",
+  "men": "Men",
+  "women": "Women",
+  "other": "Other",
+  "paul": "Paul: ",
+  "error_info_screen": "User data could not be saved",
+  "error": "Error",
+  "invalid_phone_number": "Incorrect number validation",
+
+
+
+
+  "your_health": "Your health is in good hands!",
+  "submit_application": "Submit your application",
+  "services": "Services",
+  "consultation": "Consultation",
+  "why_choose_us": "Why choose us:",
+  "qualified_specialists": "Qualified specialists",
+  "sterility_and_safety": "Sterility and safety",
+  "availability": "Availability 24/7",
+  "fast_delivery": "Fast delivery of medications",
+
+
+
+
+  "our_services_title": "Our Services!",
+  "our_services_subTitle": "Choose a service or consult a specialist.",
+  "intramuscular_injections": "Intramuscular Injections",
+  "intravenous_injections": "Intravenous Injections",
+  "ivs": "IVs",
+  "bandages": "Bandages",
+  "installation_of_a_urinary_catheter_and_stom": "Installation of a Urinary Catheter and Stoma",
+  "enemas": "Enemas",
+  "removal_of_alcohol_intoxication": "Removal of Alcohol Intoxication"
+}

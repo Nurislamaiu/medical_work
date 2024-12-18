@@ -1,0 +1,74 @@
+{
+
+
+  "title1": "Добро пожаловать",
+  "title2": "Удобный заказ",
+  "title3": "Качественный сервис",
+  "description1": "Это приложение для медицинских услуг на дому.",
+  "description2": "Оформляйте заявки всего за несколько кликов.",
+  "description3": "Наша команда гарантирует профессиональный подход.",
+  "next": "Далее",
+  "start": "Начать",
+  "skip": "Пропустить",
+
+
+
+
+  "your_detail" : "Введите свои данные для входа",
+  "login": "Войти",
+  "no_account": "Нет аккаунта? Зарегистрируйтесь",
+  "password": "Пароль",
+  "email": "Почта",
+  "register": "Регистрация",
+  "register_description": "Создайте аккаунт, чтобы получить доступ к приложению",
+  "enter_data_title": "Введите данные",
+  "enter_data_sub_title": "Введите данные, чтобы медицинский специалист узнал вас лучше.",
+  "name": "Имя",
+  "age": "Возраст",
+  "address": "Адрес",
+  "phone": "Телефон",
+  "please_enter_name": "Пожалуйста, введите имя",
+  "please_enter_age": "Пожалуйста, введите возраст",
+  "please_enter_address": "Пожалуйста, введите адрес",
+  "please_enter_phone": "Пожалуйста, введите номер телефона",
+  "men": "Мужской",
+  "women": "Женский",
+  "other": "Не выбран",
+  "paul": "Пол: ",
+  "error_info_screen": "Не удалось сохранить данные пользователя",
+  "error": "Ошибка",
+  "invalid_phone_number": "Не верный валидация номера",
+
+
+
+
+  "your_health": "Ваше здоровье в надежных руках!",
+  "submit_application": "Оставить заявку",
+  "services": "Услуги",
+  "consultation": "Консультация",
+  "why_choose_us": "Почему выбирают нас:",
+  "qualified_specialists": "Квалифицированные специалисты",
+  "sterility_and_safety": "Стерильность и безопасность",
+  "availability": "Доступность 24/7",
+  "fast_delivery": "Быстрая доставка медикаментов",
+
+
+  "our_services_title": "Наши услуги!",
+  "our_services_subTitle": "Выберите услугу или проконсультируйтесь со специалистом.",
+  "intramuscular_injections": "Внутримышечные инъекции",
+  "intramuscular_injections_price": "Стоимость: от 3000 тг",
+  "intravenous_injections": "Внутривенные инъекции",
+  "intravenous_injections_price": "Стоимость: от 4000 тг",
+  "ivs": "Капельницы",
+  "ivs_price": "Стоимость: от 5000 тг",
+  "bandages": "Перевязки",
+  "bandages_price": "Стоимость: от 6000 тг",
+  "installation_of_a_urinary_catheter_and_stom": "Установка мочевого катетера и стом",
+  "installation_of_a_urinary_catheter_and_stom_price": "Стоимость: от 10 000 тг",
+  "enemas": "Клизмы",
+  "enemas_price": "Стоимость: от 15 000 тг",
+  "removal_of_alcohol_intoxication": "Снятие алкогольной интоксикации",
+  "removal_of_alcohol_intoxication_price": "Стоимость: от 20 000 тг"
+
+
+}
