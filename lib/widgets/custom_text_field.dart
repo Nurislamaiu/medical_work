@@ -8,9 +8,12 @@ class CustomTextField extends StatefulWidget {
   final String label;
   final IconData icon;
   final bool obscureText;
+  final IconData suffixIcon;
+  final bool issuffixIcon;
   final TextInputType type;
-  final String? Function(String?)? validator; // Новый параметр для валидации
-  final List<TextInputFormatter>? inputFormatters; // Новый параметр для маски ввода
+  final String? Function(String?)? validator;
+  final List<TextInputFormatter>? inputFormatters;
+  final Function? onPressed;
 
   const CustomTextField({
     Key? key,
@@ -18,9 +21,11 @@ class CustomTextField extends StatefulWidget {
     required this.label,
     required this.icon,
     this.obscureText = false,
+    this.issuffixIcon = false,
+    this.suffixIcon = Icons.location_on_outlined,
     this.validator,
     this.type = TextInputType.text,
-    this.inputFormatters, // Принимаем список масок ввода
+    this.inputFormatters, this.onPressed,
   }) : super(key: key);
 
   @override
@@ -29,11 +34,10 @@ class CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<CustomTextField> {
   bool _isObscured = false;
-
   @override
   void initState() {
     super.initState();
-    _isObscured = widget.obscureText; // Инициализируем скрытие для пароля
+    _isObscured = widget.obscureText;
   }
 
   @override
@@ -42,12 +46,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
       keyboardType: widget.type,
       controller: widget.controller,
       obscureText: _isObscured,
-      validator: widget.validator, // Подключаем функцию проверки
-      inputFormatters: widget.inputFormatters, // Применяем маски ввода
+      validator: widget.validator,
+      inputFormatters: widget.inputFormatters,
       decoration: InputDecoration(
         labelText: widget.label,
         prefixIcon: Icon(widget.icon, color: ScreenColor.color6),
-        suffixIcon: widget.obscureText
+        suffixIcon: widget.issuffixIcon
+            ? IconButton(
+          onPressed: () => widget.onPressed,
+          icon: Icon(widget.suffixIcon),
+        )
+            : widget.obscureText
             ? IconButton(
           icon: Icon(
             _isObscured ? Icons.visibility : Icons.visibility_off,
@@ -64,9 +73,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: ScreenColor.color2),
         ),
+        focusColor: ScreenColor.color6,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: ScreenColor.color2, width: 2),
+          borderSide: BorderSide(color: ScreenColor.color6, width: 2),
         ),
       ),
     );

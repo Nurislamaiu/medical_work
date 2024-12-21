@@ -30,7 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
       );
       Navigator.pushReplacementNamed(context, '/nav-bar');
     } on FirebaseAuthException catch (e) {
-      Get.snackbar("Ошибка", "Неизвестная ошибка");
+      Get.snackbar(AppLocalizations.of(context).translate('error'),
+          AppLocalizations.of(context).translate('error_info_screen'));
     } finally {
       setState(() {
         _isLoading = false;

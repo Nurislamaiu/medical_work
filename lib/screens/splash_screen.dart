@@ -2,26 +2,43 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:medicall_work/utils/size_screen.dart';
 import '../app/app_routes.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
     _checkUserStatus();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            CircularProgressIndicator(),
-            SizedBox(height: 20),
-            Text(
-              'Загрузка...',
-              style: TextStyle(fontSize: 16),
+          children: [
+            Spacer(),
+            Image.asset(
+              'assets/images/logo.png',
+              height: ScreenSize(context).height * 0.3,
+              fit: BoxFit.cover,
             ),
+            Spacer(),
+            Text(
+              'Med Call',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: ScreenSize(context).height * 0.1),
           ],
         ),
       ),
@@ -29,7 +46,7 @@ class SplashScreen extends StatelessWidget {
   }
 
   void _checkUserStatus() async {
-    await Future.delayed(const Duration(seconds: 2)); // Задержка на 2 секунды
+    await Future.delayed(const Duration(seconds: 1));
 
     final user = FirebaseAuth.instance.currentUser;
 
@@ -71,8 +88,6 @@ class SplashScreen extends StatelessWidget {
   }
 
   void _navigateTo(String route) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Get.offAllNamed(route);
-    });
+    Get.offAllNamed(route);
   }
 }

@@ -27,6 +27,11 @@ dependencies:
   firebase_storage: ^12.3.7
   cloud_firestore: ^5.5.1
   file_picker: ^8.1.6
+  flutter_svg: ^2.0.0
+  mask_text_input_formatter: ^2.9.0
+  iconsax: ^0.0.8
+  geolocator: ^13.0.2
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +54,7 @@ flutter:
 
   assets:
     - assets/
+    - assets/svg/
     - assets/lottie/
     - assets/images/
     - assets/languages/

@@ -1,5 +1,5 @@
 {
-  "title1": "Welcome",
+  "title1": "Welcome to Med Call",
   "title2": "Convenient Ordering",
   "title3": "Quality Service",
   "description1": "This is an app for home medical services.",
@@ -9,9 +9,7 @@
   "start": "Start",
   "skip": "Skip",
 
-
-
-
+  "loading": "Loading...",
   "your_detail": "Enter your login details",
   "login": "Login",
   "no_account": "No account? Register",
@@ -22,8 +20,11 @@
   "enter_data_title": "Enter the data",
   "enter_data_sub_title": "Enter the data so that the medical specialist gets to know you better.",
   "name": "Name",
+  "iin": "ИИН",
+  "number_sertificate": "Number Sertificate",
+  "experience": "Experience",
   "age": "Age",
-  "address": "Address",
+  "address": "Address, City",
   "phone": "Phone",
   "please_enter_name": "Please enter name",
   "please_enter_age": "Please enter age",
@@ -36,6 +37,18 @@
   "error_info_screen": "User data could not be saved",
   "error": "Error",
   "invalid_phone_number": "Incorrect number validation",
+
+
+  "field_cannot_be_empty": "Field cannot be empty",
+  "password_too_short": "Password too short",
+  "invalid_email": "Invalid email",
+
+
+
+  "please_wait": "Please wait for your application to be processed by the administrator within 2 hours.",
+  "wait_title": "Expect",
+  "wait_subtitle": "The moderator checks your documents",
+  "wait_error_data": "Error loading data. Please try again.",
 
 
 
