@@ -184,7 +184,7 @@ class WaitingScreen extends StatelessWidget {
                 if (status == 'approved') {
                   // Если статус "approved", перенаправляем на home
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    Get.offAllNamed(AppRoutes.home);
+                    Get.offAllNamed(AppRoutes.navBar);
                   });
                 } else if (status == 'rejected') {
                   // Если статус "rejected", перенаправляем на login

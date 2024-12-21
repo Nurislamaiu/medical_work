@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      Navigator.pushReplacementNamed(context, '/nav-bar');
+      Navigator.pushReplacementNamed(context, '/navbar');
     } on FirebaseAuthException catch (e) {
       Get.snackbar(AppLocalizations.of(context).translate('error'),
           AppLocalizations.of(context).translate('error_info_screen'));

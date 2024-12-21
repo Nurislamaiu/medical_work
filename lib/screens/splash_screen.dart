@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medicall_work/screens/requests/detail_requests.dart';
 import 'package:medicall_work/utils/size_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../app/app_routes.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,6 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     _checkUserStatus();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +61,34 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
     try {
+      // Проверяем, сохранено ли состояние для DetailScreen
+      final prefs = await SharedPreferences.getInstance();
+      final savedUserId = prefs.getString('currentUserId');
+      final savedRequestId = prefs.getString('currentRequestId');
+
+      if (savedUserId != null && savedRequestId != null) {
+        // Если данные найдены, проверяем их наличие в Firestore
+        final requestDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(savedUserId)
+            .collection('requests')
+            .doc(savedRequestId)
+            .get();
+
+        if (requestDoc.exists) {
+          final requestData = requestDoc.data();
+          if (requestData != null) {
+            Get.offAll(() => DetailScreen(
+              userId: savedUserId,
+              requestId: savedRequestId,
+              request: requestData,
+            ));
+            return;
+          }
+        }
+      }
+
+      // Если сохраненные данные не найдены, продолжаем обычную проверку
       final docSnapshot = await FirebaseFirestore.instance
           .collection('nurse')
           .doc(user.uid)
@@ -69,7 +101,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
         if (status == 'approved') {
           // Статус "approved" -> Home
-          _navigateTo(AppRoutes.home);
+          _navigateTo(AppRoutes.navBar);
         } else if (status == 'pending') {
           // Статус "pending" -> WaitingScreen
           _navigateTo(AppRoutes.waiting);
