@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../110n/app_localizations.dart';
@@ -23,27 +27,29 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  bool isLoading = false;
   Map<String, dynamic>? userData;
 
   @override
   void initState() {
     super.initState();
-    fetchUserData();
+    fetchRequestStream();
   }
 
-  Future<void> fetchUserData() async {
-    try {
-      final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(widget.userId)
-          .get();
+  Stream<DocumentSnapshot> fetchRequestStream() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.userId)
+        .collection('requests')
+        .doc(widget.requestId)
+        .snapshots();
+  }
 
-      setState(() {
-        userData = userDoc.data();
-      });
-    } catch (e) {
-      print('Error fetching user data: $e');
-    }
+  Stream<DocumentSnapshot> fetchUserStream() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.userId)
+        .snapshots();
   }
 
   Future<void> clearSavedState() async {
@@ -60,160 +66,243 @@ class _DetailScreenState extends State<DetailScreen> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: ScreenSize(context).height * 0.30,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    ScreenColor.color6,
-                    ScreenColor.color6.withOpacity(0.2),
+        body: Stack(children: [
+          Column(
+            children: [
+              Container(
+                width: double.infinity,
+                height: ScreenSize(context).height * 0.30,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      ScreenColor.color6,
+                      ScreenColor.color6.withOpacity(0.2),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: ScreenColor.color6.withOpacity(0.5),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    )
                   ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
                 ),
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: ScreenColor.color6.withOpacity(0.5),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
-                  )
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Request Details',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    AppLocalizations.of(context).translate('wait_subtitle'),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0),
-                child: userData == null
-                    ? const Center(child: CircularProgressIndicator())
-                    : Column(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildSectionCard(
-                      title: 'User Information',
-                      content: Column(
-                        children: [
-                          _buildInfoTile(
-                              'Name', userData?['name'] ?? 'No name provided'),
-                          _buildInfoTile(
-                              'Phone', userData?['phone'] ?? 'No phone provided'),
-                          _buildInfoTile(
-                              'Address',
-                              userData?['address'] ?? 'No address provided'),
-                        ],
+                    Text(
+                      'Request Details',
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    _buildSectionCard(
-                      title: 'Request Information',
-                      content: Column(
-                        children: [
-                          _buildInfoTile(
-                              'Service', widget.request['service']),
-                          _buildInfoTile('Date', widget.request['date']),
-                          _buildInfoTile('Time', widget.request['time']),
-                        ],
+                    Text(
+                      AppLocalizations.of(context).translate('wait_subtitle'),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        /// Добавить логику снижение активности при отмены заявки(+ задержание коммисия 5%)
-                        ElevatedButton.icon(
-                            onPressed: () async {
-                              await FirebaseFirestore.instance
-                                  .collection('users')
-                                  .doc(widget.userId)
-                                  .collection('requests')
-                                  .doc(widget.requestId)
-                                  .update({'status': 'rejected',
-                                'acceptedBy': {
-                                'id': '',
-                                'name': '',
-                                'phone': '',
-                              },});
-
-                              await clearSavedState();
-
-                              Navigator.pushReplacementNamed(
-                                  context, '/navbar');
-                            },
-                            icon: const Icon(Icons.cancel, color: Colors.white),
-                            label: const Text(
-                              'Cancel',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.redAccent,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 24,
-                                vertical: 12,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              elevation: 10,
-                            ),
-                          ),
-
-                        /// Добавить логику когда пользователь потвердить что мед сестра пришел
-                        ElevatedButton.icon(
-                            onPressed: null,
-                            icon: const Icon(Icons.check, color: Colors.white),
-                            label: const Text(
-                              'Complete',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 24,
-                                vertical: 12,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              elevation: 10,
-                            ),
-                          ),
-                      ],
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
-        ),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // User Information
+                      StreamBuilder<DocumentSnapshot>(
+                        stream: fetchUserStream(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
+
+                          if (snapshot.hasError) {
+                            return Center(child: Text('Error: ${snapshot.error}'));
+                          }
+
+                          if (!snapshot.hasData || snapshot.data == null) {
+                            return const Center(child: Text('No user data available'));
+                          }
+
+                          final userData = snapshot.data!.data() as Map<String, dynamic>;
+
+                          return _buildSectionCard(
+                            title: 'User Information',
+                            content: Column(
+                              children: [
+                                _buildInfoTile('Name', userData['name'] ?? 'No name provided'),
+                                _buildInfoTile('Phone', userData['phone'] ?? 'No phone provided'),
+                                _buildInfoTile('Address', userData['address'] ?? 'No address provided'),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Request Information
+                      StreamBuilder<DocumentSnapshot>(
+                        stream: fetchRequestStream(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
+
+                          if (snapshot.hasError) {
+                            return Center(child: Text('Error: ${snapshot.error}'));
+                          }
+
+                          if (!snapshot.hasData || snapshot.data == null) {
+                            return const Center(child: Text('No request data available'));
+                          }
+
+                          final requestData = snapshot.data!.data() as Map<String, dynamic>;
+
+                          return _buildSectionCard(
+                            title: 'Request Information',
+                            content: Column(
+                              children: [
+                                _buildInfoTile('Service', requestData['service'] ?? 'No service provided'),
+                                _buildInfoTile('Date', requestData['date'] ?? 'No date provided'),
+                                _buildInfoTile('Time', requestData['time'] ?? 'No time provided'),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+
+
+                      // Button
+                      SizedBox(height: 20),
+                      StreamBuilder<DocumentSnapshot>(
+                        stream: fetchRequestStream(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
+
+                          if (snapshot.hasError) {
+                            return Center(child: Text('Error: ${snapshot.error}'));
+                          }
+
+                          if (!snapshot.hasData || snapshot.data == null) {
+                            return const Center(child: Text('No request data available'));
+                          }
+
+                          final requestData = snapshot.data!.data() as Map<String, dynamic>;
+
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              // Cancel Button
+                              ElevatedButton.icon(
+                                onPressed: () async {
+                                  try {
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(widget.userId)
+                                        .collection('requests')
+                                        .doc(widget.requestId)
+                                        .update({
+                                      'status': 'rejected',
+                                      'acceptedBy': {
+                                        'id': '',
+                                        'name': '',
+                                        'phone': '',
+                                      },
+                                    });
+
+                                    await clearSavedState();
+                                    Get.snackbar('Canceled', 'The request has been canceled.');
+                                    Navigator.pushReplacementNamed(context, '/navbar');
+                                  } catch (e) {
+                                    Get.snackbar('Error', 'An error occurred: $e');
+                                  }
+                                },
+                                icon: const Icon(Icons.cancel, color: Colors.white),
+                                label: const Text(
+                                  'Cancel',
+                                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.redAccent,
+                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  elevation: 10,
+                                ),
+                              ),
+
+                              // Complete Button
+                              ElevatedButton.icon(
+                                onPressed: requestData['status'] == 'completed'
+                                    ? () async {
+                                  try {
+                                    await FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(widget.userId)
+                                        .collection('requests')
+                                        .doc(widget.requestId)
+                                        .update({'status': 'finished'});
+
+                                    await clearSavedState();
+                                    Get.snackbar('Completed', 'The request has been marked as completed.');
+                                    Navigator.pushReplacementNamed(context, '/navbar');
+                                  } catch (e) {
+                                    Get.snackbar('Error', 'An error occurred: $e');
+                                  }
+                                }
+                                    : null, // Disabled if status is not 'completed'
+                                icon: const Icon(Icons.check, color: Colors.white),
+                                label: const Text(
+                                  'Complete',
+                                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: requestData['status'] == 'completed'
+                                      ? Colors.green
+                                      : Colors.grey, // Change color based on status
+                                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  elevation: 10,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if(isLoading)
+            Container(
+              color: Colors.black.withOpacity(0.1),
+              child: Center(
+                child: Lottie.asset("assets/lottie/loading.json"),
+              ),
+            )
+        ]),
       ),
     );
   }

@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 
 import '../../utils/color_screen.dart';
 import '../../utils/size_screen.dart';
-import '../../110n/app_localizations.dart';
 import '../requests/detail_requests.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -259,13 +258,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               if (requestSnapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
-                                  child: CircularProgressIndicator(),
+                                  child: Lottie.asset(
+                                      "assets/lottie/loading.json"),
                                 );
-                              }
-
-                              if (!requestSnapshot.hasData ||
-                                  requestSnapshot.data!.docs.isEmpty) {
-                                return Container();
                               }
 
                               final requests = requestSnapshot.data!.docs
@@ -273,8 +268,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     final requestData = requestDoc.data()
                                         as Map<String, dynamic>;
 
+                                    // Убедимся, что заявка не имеет статуса "finished"
                                     if (requestData.containsKey('date') &&
-                                        requestData['status'] != 'accepted') {
+                                        requestData['status'] != 'accepted' &&
+                                        requestData['status'] != 'finished') {
                                       try {
                                         final date = customDateFormat
                                             .parse(requestData['date']);
@@ -382,12 +379,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                SizedBox(height: 8),
+                                                SizedBox(height: 4),
                                                 Text(
                                                   'Time: ${request['request']['time']}',
                                                   style: TextStyle(
                                                     fontSize: 14,
-                                                    color: Colors.grey[700],
+                                                    color: Colors.black,
                                                   ),
                                                 ),
                                                 SizedBox(height: 4),
@@ -395,7 +392,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   'Address: ${request['address']}',
                                                   style: TextStyle(
                                                     fontSize: 14,
-                                                    color: Colors.grey[700],
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 4),
+                                                Text(
+                                                  'Price ${request!['request']['price']}',
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.black,
                                                   ),
                                                 ),
                                                 SizedBox(height: 12),
